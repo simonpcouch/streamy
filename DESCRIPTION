@@ -1,0 +1,25 @@
+Package: streamy
+Title: Inline Contents from Generators into Documents
+Version: 0.0.0.9000
+Authors@R: 
+    person("Simon", "Couch", , "simon.couch@posit.co", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0001-5676-5107"))
+Description: Given a 'coro' generator instance, inlines text into a document 
+    selection in 'RStudio' and 'Positron'. This is particularly helpful for 
+    streaming LLM responses into documents.
+License: MIT + file LICENSE
+Config/testthat/edition: 3
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+URL: https://github.com/simonpcouch/streamy, https://simonpcouch.github.io/streamy/
+BugReports: https://github.com/simonpcouch/streamy/issues
+Imports: 
+    cli (>= 3.6.3),
+    coro (>= 1.1.0),
+    rlang,
+    rstudioapi (>= 0.17.1)
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0)
