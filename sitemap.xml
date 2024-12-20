@@ -1,14 +1,14 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
-<url><loc>/404.html</loc></url>
-<url><loc>/CODE_OF_CONDUCT.html</loc></url>
-<url><loc>/CONTRIBUTING.html</loc></url>
-<url><loc>/LICENSE-text.html</loc></url>
-<url><loc>/LICENSE.html</loc></url>
-<url><loc>/SUPPORT.html</loc></url>
-<url><loc>/authors.html</loc></url>
-<url><loc>/index.html</loc></url>
-<url><loc>/reference/index.html</loc></url>
-<url><loc>/reference/stream.html</loc></url>
-<url><loc>/reference/streamy-package.html</loc></url>
+<url><loc>https://simonpcouch.github.io/streamy/404.html</loc></url>
+<url><loc>https://simonpcouch.github.io/streamy/CODE_OF_CONDUCT.html</loc></url>
+<url><loc>https://simonpcouch.github.io/streamy/CONTRIBUTING.html</loc></url>
+<url><loc>https://simonpcouch.github.io/streamy/LICENSE-text.html</loc></url>
+<url><loc>https://simonpcouch.github.io/streamy/LICENSE.html</loc></url>
+<url><loc>https://simonpcouch.github.io/streamy/SUPPORT.html</loc></url>
+<url><loc>https://simonpcouch.github.io/streamy/authors.html</loc></url>
+<url><loc>https://simonpcouch.github.io/streamy/index.html</loc></url>
+<url><loc>https://simonpcouch.github.io/streamy/reference/index.html</loc></url>
+<url><loc>https://simonpcouch.github.io/streamy/reference/stream.html</loc></url>
+<url><loc>https://simonpcouch.github.io/streamy/reference/streamy-package.html</loc></url>
 </urlset>
 
