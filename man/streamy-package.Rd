@@ -6,7 +6,7 @@
 \alias{streamy-package}
 \title{streamy: Inline Contents from Generators into Documents}
 \description{
-Given a 'coro' generator, inlines results into a document selection in 'RStudio' and 'Positron'. This is particularly helpful for streaming LLM responses into documents.
+Given a 'coro' generator instance, inlines text into a document selection in 'RStudio' and 'Positron'. This is particularly helpful for streaming LLM responses into documents.
 }
 \seealso{
 Useful links:
