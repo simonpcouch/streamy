@@ -20,12 +20,13 @@ stream <- function(generator,
   rlang::eval_bare(rlang::call2(
     paste0("rs_", interface, "_selection"),
     generator = generator,
-    context = context
+    context = context,
+    interface = interface
   ))
 }
 
 # replace selection with refactored code ---------------------------------------
-rs_replace_selection <- function(generator, context) {
+rs_replace_selection <- function(generator, context, interface) {
   selection <- rstudioapi::primary_selection(context)
 
   # make the format of the "final position" consistent
@@ -43,7 +44,8 @@ rs_replace_selection <- function(generator, context) {
     selection = selection,
     context = context,
     n_lines_orig = n_lines_orig,
-    remainder = selection_remainder
+    remainder = selection_remainder,
+    interface = interface
   )
 }
 
@@ -82,7 +84,7 @@ wipe_selection <- function(selection, context) {
 }
 
 # prefix selection with new code -----------------------------------------------
-rs_prefix_selection <- function(generator, context) {
+rs_prefix_selection <- function(generator, context, interface) {
   selection <- rstudioapi::primary_selection(context)
 
   # add one blank line before the selection
@@ -105,12 +107,13 @@ rs_prefix_selection <- function(generator, context) {
     generator = generator,
     selection = selection,
     context = context,
-    n_lines_orig = 1
+    n_lines_orig = 1,
+    interface = interface
   )
 }
 
 # suffix selection with new code -----------------------------------------------
-rs_suffix_selection <- function(generator, context) {
+rs_suffix_selection <- function(generator, context, interface) {
   selection <- rstudioapi::primary_selection(context)
 
   # add one blank line after the selection
@@ -134,19 +137,26 @@ rs_suffix_selection <- function(generator, context) {
     generator = generator,
     selection = selection,
     context = context,
-    n_lines_orig = 1
+    n_lines_orig = 1,
+    interface = interface
   )
 }
 
 # meat and potatoes -
-stream_selection <- function(generator, selection, context, n_lines_orig, remainder = "") {
+stream_selection <- function(generator,
+                             selection,
+                             context,
+                             n_lines_orig,
+                             remainder = "",
+                             interface) {
   tryCatch(
     stream_selection_impl(
       generator = generator,
       selection = selection,
       context = context,
       n_lines_orig = n_lines_orig,
-      remainder = remainder
+      remainder = remainder,
+      interface = interface
     ),
     error = function(e) {
       rstudioapi::showDialog("Error", paste("The assistant ran into an issue: ", e$message))
@@ -154,7 +164,12 @@ stream_selection <- function(generator, selection, context, n_lines_orig, remain
   )
 }
 
-stream_selection_impl <- function(generator, selection, context, n_lines_orig, remainder) {
+stream_selection_impl <- function(generator,
+                                  selection,
+                                  context,
+                                  n_lines_orig,
+                                  remainder,
+                                  interface) {
   selection_text <- selection[["text"]]
   output_lines <- character(0)
 
@@ -196,5 +211,8 @@ stream_selection_impl <- function(generator, selection, context, n_lines_orig, r
   rstudioapi::setSelectionRanges(selection$range, id = context$id)
   rstudioapi::executeCommand("reindent")
 
-  rstudioapi::setCursorPosition(selection$range$start)
+  # keep the code selected if it was replaced for easier iteration (#1)
+  if (!identical(interface, "replace")) {
+    rstudioapi::setCursorPosition(selection$range$start)
+  }
 }
