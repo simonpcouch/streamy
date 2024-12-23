@@ -150,7 +150,7 @@ stream_selection <- function(generator,
                              remainder = "",
                              interface) {
   tryCatch(
-    stream_selection_impl(
+    res <- stream_selection_impl(
       generator = generator,
       selection = selection,
       context = context,
@@ -162,6 +162,8 @@ stream_selection <- function(generator,
       rstudioapi::showDialog("Error", paste("The assistant ran into an issue: ", e$message))
     }
   )
+
+  res
 }
 
 stream_selection_impl <- function(generator,
@@ -201,11 +203,12 @@ stream_selection_impl <- function(generator,
 
   # once the generator is finished, modify the range with the
   # unpadded version to remove unneeded newlines
-  rstudioapi::modifyRange(
-    selection$range,
-    sub("\n$", "", paste0(output_lines, remainder)),
-    context$id
-  )
+  res <-
+    rstudioapi::modifyRange(
+      selection$range,
+      sub("\n$", "", paste0(output_lines, remainder)),
+      context$id
+    )
 
   # reindent the code
   rstudioapi::setSelectionRanges(selection$range, id = context$id)
@@ -215,4 +218,6 @@ stream_selection_impl <- function(generator,
   if (!identical(interface, "replace")) {
     rstudioapi::setCursorPosition(selection$range$start)
   }
+
+  res
 }
