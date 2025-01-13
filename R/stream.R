@@ -88,17 +88,21 @@ rs_prefix_selection <- function(generator, context, interface) {
   selection <- rstudioapi::primary_selection(context)
 
   # add one blank line before the selection
+  # the selection may be empty (i.e. just a cursor), so make sure
+  # to append the newline before the whole current line(s)
+  whole_lines <- selection$range
+  whole_lines$start[["column"]] <- 1
+  whole_lines$end[["column"]] <- 100000
+
   rstudioapi::modifyRange(
-    selection$range,
-    paste0("\n", selection[["text"]]),
+    whole_lines,
+    paste0(c("", extract_range(whole_lines, context$contents)), collapse = "\n"),
     context$id
   )
 
   # make the "current selection" that blank line
-  first_line <- selection$range
-  first_line$start[["column"]] <- 1
+  first_line <- whole_lines
   first_line$end[["row"]] <- selection$range$start[["row"]]
-  first_line$end[["column"]] <- 100000
   selection$range <- first_line
   rstudioapi::setCursorPosition(selection$range$start)
 
@@ -110,6 +114,22 @@ rs_prefix_selection <- function(generator, context, interface) {
     n_lines_orig = 1,
     interface = interface
   )
+}
+
+extract_range <- function(range, contents) {
+  start_line <- range$start[1]
+  end_line <- range$end[1]
+  start_col <- range$start[2]
+  end_col <- range$end[2]
+
+  if (start_line == end_line) {
+    substr(contents[start_line], start_col, end_col)
+  } else {
+    lines <- contents[start_line:end_line]
+    lines[1] <- substr(lines[1], start_col, nchar(lines[1]))
+    lines[length(lines)] <- substr(lines[length(lines)], 1, end_col)
+    lines
+  }
 }
 
 # suffix selection with new code -----------------------------------------------
