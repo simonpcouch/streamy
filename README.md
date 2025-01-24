@@ -10,8 +10,6 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 [![CRAN
 status](https://www.r-pkg.org/badges/version/streamy)](https://CRAN.R-project.org/package=streamy)
 [![R-CMD-check](https://github.com/simonpcouch/streamy/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/simonpcouch/streamy/actions/workflows/R-CMD-check.yaml)
-[![Codecov test
-coverage](https://codecov.io/gh/simonpcouch/streamy/graph/badge.svg)](https://app.codecov.io/gh/simonpcouch/streamy)
 <!-- badges: end -->
 
 Given a coro generator instance, streamy inlines text into a document
