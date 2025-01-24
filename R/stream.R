@@ -1,9 +1,9 @@
 #' Stream generator results into a document
 #'
-#' @param generator A coro generator function.
+#' @param generator A [coro::generator()] function.
 #' @param context Optional. An RStudio document context.
-#' @param interface One of `"prefix"`, `"replace"`, or `"suffix"`. Defaults to
-#' `"replace"`.
+#' @param interface One of `"prefix"`, `"replace"`, or `"suffix"`, describing
+#' how to the active selection will be interfaced with. Defaults to `"replace"`.
 #'
 #' @returns
 #' Nothing; called for its side effect, modifying the context of the current

@@ -11,12 +11,12 @@ stream(
 )
 }
 \arguments{
-\item{generator}{A coro generator function.}
+\item{generator}{A \code{\link[coro:generator]{coro::generator()}} function.}
 
 \item{context}{Optional. An RStudio document context.}
 
-\item{interface}{One of \code{"prefix"}, \code{"replace"}, or \code{"suffix"}. Defaults to
-\code{"replace"}.}
+\item{interface}{One of \code{"prefix"}, \code{"replace"}, or \code{"suffix"}, describing
+how to the active selection will be interfaced with. Defaults to \code{"replace"}.}
 }
 \value{
 Nothing; called for its side effect, modifying the context of the current
