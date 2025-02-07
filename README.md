@@ -22,7 +22,13 @@ This package powers [gander](https://github.com/simonpcouch/gander),
 
 ## Installation
 
-You can install the development version of streamy like so:
+You can install streamy with the following R code:
+
+``` r
+install.packages("streamy")
+```
+
+Install the development version of streamy like so:
 
 ``` r
 pak::pak("simonpcouch/streamy")
