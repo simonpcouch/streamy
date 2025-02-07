@@ -4,9 +4,9 @@
 \name{streamy-package}
 \alias{streamy}
 \alias{streamy-package}
-\title{streamy: Inline Contents from Generators into Documents}
+\title{streamy: Inline Asynchronous Generator Results into Documents}
 \description{
-Given a 'coro' generator instance, inlines text into a document selection in 'RStudio' and 'Positron'. This is particularly helpful for streaming LLM responses into documents.
+Given a 'coro' asynchronous generator instance that produces text, iteratively write that text into a document selection in 'RStudio' and 'Positron'. This is particularly helpful for streaming LLM responses into the user's editor.
 }
 \seealso{
 Useful links:
@@ -19,6 +19,11 @@ Useful links:
 }
 \author{
 \strong{Maintainer}: Simon Couch \email{simon.couch@posit.co} (\href{https://orcid.org/0000-0001-5676-5107}{ORCID})
+
+Other contributors:
+\itemize{
+  \item Posit Software, PBC (03wc8by49) [copyright holder, funder]
+}
 
 }
 \keyword{internal}
