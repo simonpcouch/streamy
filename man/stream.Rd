@@ -19,8 +19,8 @@ stream(
 how to the active selection will be interfaced with. Defaults to \code{"replace"}.}
 }
 \value{
-Nothing; called for its side effect, modifying the context of the current
-selection with results from the generator.
+The streamed result, invisibly; called for its side effect, modifying the
+context of the current selection with results from the generator.
 }
 \description{
 Given an asychronous generator that produces text, this function iteratively
@@ -28,24 +28,23 @@ polls that generator and inlines its results into the currently open RStudio
 or Positron document. This is particularly useful for streaming results
 from large language models.
 }
-\examples{
-\dontshow{if (FALSE) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-if (interactive() && rstudioapi::isAvailable()) {
-  library(coro)
-
-  generate_stream <- async_generator(function(x) for (elt in x) yield(elt))
-
-  async_map <- async_generator(function(.i, .fn, ...) {
-    for (elt in await_each(.i)) {
-      yield(.fn(elt, ...))
-    }
-  })
-
-  stream(
-    generate_stream(1:3) \%>\% async_map(.fn = function(x) {as.character(x * 2)}),
-    context = rstudioapi::getActiveDocumentContext(),
-    interface = "replace"
-  )
+\details{
+This function is generally not intended for interactive usage. See the
+gander, pal, and ensure package, which this package powers.
 }
+\examples{
+\dontshow{if (interactive() && rstudioapi::isAvailable()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+library(coro)
+
+generate_stream <- async_generator(function(x) for (elt in x) yield(elt))
+
+async_map <- async_generator(function(.i, .fn, ...) {
+  for (elt in await_each(.i)) {
+    yield(.fn(elt, ...))
+  }
+})
+
+# pass to `stream()` in an interactive document
+generate_stream(1:3) \%>\% async_map(`*`, 2)
 \dontshow{\}) # examplesIf}
 }

@@ -11,28 +11,27 @@
 #' @param interface One of `"prefix"`, `"replace"`, or `"suffix"`, describing
 #' how to the active selection will be interfaced with. Defaults to `"replace"`.
 #'
+#' @details
+#' This function is generally not intended for interactive usage. See the
+#' gander, pal, and ensure package, which this package powers.
+#'
 #' @returns
-#' Nothing; called for its side effect, modifying the context of the current
-#' selection with results from the generator.
+#' The streamed result, invisibly; called for its side effect, modifying the
+#' context of the current selection with results from the generator.
 #'
-#' @examplesIf FALSE
-#' if (interactive() && rstudioapi::isAvailable()) {
-#'   library(coro)
+#' @examplesIf interactive() && rstudioapi::isAvailable()
+#' library(coro)
 #'
-#'   generate_stream <- async_generator(function(x) for (elt in x) yield(elt))
+#' generate_stream <- async_generator(function(x) for (elt in x) yield(elt))
 #'
-#'   async_map <- async_generator(function(.i, .fn, ...) {
-#'     for (elt in await_each(.i)) {
-#'       yield(.fn(elt, ...))
-#'     }
-#'   })
+#' async_map <- async_generator(function(.i, .fn, ...) {
+#'   for (elt in await_each(.i)) {
+#'     yield(.fn(elt, ...))
+#'   }
+#' })
 #'
-#'   stream(
-#'     generate_stream(1:3) %>% async_map(.fn = function(x) {as.character(x * 2)}),
-#'     context = rstudioapi::getActiveDocumentContext(),
-#'     interface = "replace"
-#'   )
-#' }
+#' # pass to `stream()` in an interactive document
+#' generate_stream(1:3) %>% async_map(`*`, 2)
 #' @export
 stream <- function(generator,
                    context = rstudioapi::getActiveDocumentContext(),
