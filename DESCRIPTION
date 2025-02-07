@@ -2,10 +2,9 @@ Package: streamy
 Title: Inline Asynchronous Generator Results into Documents
 Version: 0.0.0.9000
 Authors@R: c(
-    person("Simon", "Couch", , "simon.couch@posit.co", role = c("aut", "cre"),
-           comment = c(ORCID = "0000-0001-5676-5107")),
-    person("Posit Software, PBC", role = c("cph", "fnd"), 
-           comment = c(ROR = "03wc8by49"))
+    person("Simon", "Couch", , "simon.couch@posit.co", role = c("aut", "cre")),
+    person("Posit Software, PBC", role = c("cph", "fnd"),
+           comment = c(ROR = "https://ror.org/03wc8by49"))
   )
 Description: Given a 'coro' asynchronous generator instance that produces text, 
     write that text into a document selection in 'RStudio' and 
