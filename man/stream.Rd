@@ -28,3 +28,24 @@ polls that generator and inlines its results into the currently open RStudio
 or Positron document. This is particularly useful for streaming results
 from large language models.
 }
+\examples{
+\dontshow{if (FALSE) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+if (interactive() && rstudioapi::isAvailable()) {
+  library(coro)
+
+  generate_stream <- async_generator(function(x) for (elt in x) yield(elt))
+
+  async_map <- async_generator(function(.i, .fn, ...) {
+    for (elt in await_each(.i)) {
+      yield(.fn(elt, ...))
+    }
+  })
+
+  stream(
+    generate_stream(1:3) \%>\% async_map(.fn = function(x) {as.character(x * 2)}),
+    context = rstudioapi::getActiveDocumentContext(),
+    interface = "replace"
+  )
+}
+\dontshow{\}) # examplesIf}
+}
