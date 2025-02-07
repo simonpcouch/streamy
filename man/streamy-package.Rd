@@ -6,7 +6,7 @@
 \alias{streamy-package}
 \title{streamy: Inline Asynchronous Generator Results into Documents}
 \description{
-Given a 'coro' asynchronous generator instance that produces text, iteratively write that text into a document selection in 'RStudio' and 'Positron'. This is particularly helpful for streaming LLM responses into the user's editor.
+Given a 'coro' asynchronous generator instance that produces text, write that text into a document selection in 'RStudio' and 'Positron'. This is particularly helpful for streaming large language model responses into the user's editor.
 }
 \seealso{
 Useful links:

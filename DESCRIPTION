@@ -8,9 +8,9 @@ Authors@R: c(
            comment = c(ROR = "03wc8by49"))
   )
 Description: Given a 'coro' asynchronous generator instance that produces text, 
-    iteratively write that text into a document selection in 'RStudio' and 
-    'Positron'. This is particularly helpful for streaming LLM responses 
-    into the user's editor.
+    write that text into a document selection in 'RStudio' and 
+    'Positron'. This is particularly helpful for streaming large language
+    model responses into the user's editor.
 License: MIT + file LICENSE
 Config/testthat/edition: 3
 Encoding: UTF-8
