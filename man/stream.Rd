@@ -23,5 +23,8 @@ Nothing; called for its side effect, modifying the context of the current
 selection with results from the generator.
 }
 \description{
-Stream generator results into a document
+Given an asychronous generator that produces text, this function iteratively
+polls that generator and inlines its results into the currently open RStudio
+or Positron document. This is particularly useful for streaming results
+from large language models.
 }

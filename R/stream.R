@@ -1,5 +1,11 @@
 #' Stream generator results into a document
 #'
+#' @description
+#' Given an asychronous generator that produces text, this function iteratively
+#' polls that generator and inlines its results into the currently open RStudio
+#' or Positron document. This is particularly useful for streaming results
+#' from large language models.
+#'
 #' @param generator A [coro::generator()] function.
 #' @param context Optional. An RStudio document context.
 #' @param interface One of `"prefix"`, `"replace"`, or `"suffix"`, describing
