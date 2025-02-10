@@ -19,19 +19,19 @@
 #' The streamed result, invisibly; called for its side effect, modifying the
 #' context of the current selection with results from the generator.
 #'
-#' @examplesIf interactive() && rstudioapi::isAvailable()
-#' library(coro)
+#' @examples
+#' \dontrun{
+#' if (rlang::is_installed("ellmer") &&
+#'     !identical("ANTHROPIC_API_KEY", "") &&
+#'     rstudioapi::isAvailable()
+#'  ) {
+#'   library(ellmer)
 #'
-#' generate_stream <- async_generator(function(x) for (elt in x) yield(elt))
+#'   gen <- chat_claude()$stream("hey there!")
 #'
-#' async_map <- async_generator(function(.i, .fn, ...) {
-#'   for (elt in await_each(.i)) {
-#'     yield(.fn(elt, ...))
-#'   }
-#' })
-#'
-#' # pass to `stream()` in an interactive document
-#' generate_stream(1:3) %>% async_map(`*`, 2)
+#'   stream(gen, interface = "prefix")
+#' }
+#' }
 #' @export
 stream <- function(generator,
                    context = rstudioapi::getActiveDocumentContext(),
