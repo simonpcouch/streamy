@@ -33,6 +33,7 @@ This function is generally not intended for interactive usage. See the
 gander, pal, and ensure package, which this package powers.
 }
 \examples{
+\dontrun{
 if (rlang::is_installed("ellmer") &&
     !identical("ANTHROPIC_API_KEY", "") &&
     rstudioapi::isAvailable()
@@ -42,5 +43,6 @@ if (rlang::is_installed("ellmer") &&
   gen <- chat_claude()$stream("hey there!")
 
   stream(gen, interface = "prefix")
+}
 }
 }
