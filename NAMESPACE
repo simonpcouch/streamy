@@ -2,3 +2,4 @@
 
 export(stream)
 import(rlang)
+importFrom(withr,defer)
