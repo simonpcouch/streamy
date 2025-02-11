@@ -42,7 +42,7 @@ if (rlang::is_installed("ellmer") &&
 
   gen <- chat_claude()$stream("hey there!")
 
-  stream(gen, interface = "prefix")
+  stream(gen, interface = "suffix")
 }
 }
 }
