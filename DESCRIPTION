@@ -20,7 +20,8 @@ Imports:
     cli (>= 3.6.3),
     coro (>= 1.1.0),
     rlang,
-    rstudioapi (>= 0.17.1)
+    rstudioapi (>= 0.17.1),
+    withr
 Suggests: 
     ellmer,
     knitr,

@@ -29,12 +29,12 @@
 #'
 #'   gen <- chat_claude()$stream("hey there!")
 #'
-#'   stream(gen, interface = "prefix")
+#'   stream(gen, interface = "suffix")
 #' }
 #' }
 #' @export
 stream <- function(generator,
-                   context = rstudioapi::getActiveDocumentContext(),
+                   context = active_document_context(),
                    interface = c("prefix", "replace", "suffix")) {
   check_generator(generator)
   check_context(context)
@@ -48,8 +48,20 @@ stream <- function(generator,
   ))
 }
 
+active_document_context <- function() {
+  if (identical(Sys.getenv("RETURN_ON_DISPATCH"), "true")) {
+    return(structure(list(), class = "document_context"))
+  }
+
+  rstudioapi::getActiveDocumentContext()
+}
+
 # replace selection with refactored code ---------------------------------------
 rs_replace_selection <- function(generator, context, interface) {
+  if (return_on_dispatch()) {
+    return(NULL)
+  }
+
   selection <- rstudioapi::primary_selection(context)
 
   # make the format of the "final position" consistent
@@ -106,8 +118,22 @@ wipe_selection <- function(selection, context) {
   selection
 }
 
+return_on_dispatch <- function() {
+  if (identical(Sys.getenv("RETURN_ON_DISPATCH"), "true")) {
+    cli::cli_inform("Dispatched correctly.", class = "stream_dispatch")
+    Sys.unsetenv("RETURN_ON_DISPATCH")
+    return(TRUE)
+  }
+
+  FALSE
+}
+
 # prefix selection with new code -----------------------------------------------
 rs_prefix_selection <- function(generator, context, interface) {
+  if (return_on_dispatch()) {
+    return(NULL)
+  }
+
   selection <- rstudioapi::primary_selection(context)
 
   # add one blank line before the selection
@@ -157,6 +183,10 @@ extract_range <- function(range, contents) {
 
 # suffix selection with new code -----------------------------------------------
 rs_suffix_selection <- function(generator, context, interface) {
+  if (return_on_dispatch()) {
+    return(NULL)
+  }
+
   selection <- rstudioapi::primary_selection(context)
 
   # add one blank line after the selection

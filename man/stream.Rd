@@ -6,7 +6,7 @@
 \usage{
 stream(
   generator,
-  context = rstudioapi::getActiveDocumentContext(),
+  context = active_document_context(),
   interface = c("prefix", "replace", "suffix")
 )
 }
