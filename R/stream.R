@@ -33,9 +33,11 @@
 #' }
 #' }
 #' @export
-stream <- function(generator,
-                   context = active_document_context(),
-                   interface = c("prefix", "replace", "suffix")) {
+stream <- function(
+  generator,
+  context = active_document_context(),
+  interface = c("prefix", "replace", "suffix")
+) {
   check_generator(generator)
   check_context(context)
   interface <- parse_interface(interface)
@@ -68,7 +70,10 @@ rs_replace_selection <- function(generator, context, interface) {
   selection_portions <- standardize_selection(selection, context)
   selection <- selection_portions$selection
   selection_remainder <- selection_portions$remainder
-  n_lines_orig <- max(selection$range$end[["row"]] - selection$range$start[["row"]], 1)
+  n_lines_orig <- max(
+    selection$range$end[["row"]] - selection$range$start[["row"]],
+    1
+  )
 
   # fill selection with empty lines
   selection <- wipe_selection(selection, context)
@@ -103,7 +108,12 @@ standardize_selection <- function(selection, context) {
   full_text <- rstudioapi::primary_selection(
     rstudioapi::getSourceEditorContext(id = context$id)
   )$text
-  remainder <- gsub(gsub("\n$", "", selection_text), "", full_text, fixed = TRUE)
+  remainder <- gsub(
+    gsub("\n$", "", selection_text),
+    "",
+    full_text,
+    fixed = TRUE
+  )
   remainder <- gsub("\n", "", remainder, fixed = TRUE)
 
   list(selection = selection, remainder = remainder)
@@ -145,7 +155,10 @@ rs_prefix_selection <- function(generator, context, interface) {
 
   rstudioapi::modifyRange(
     whole_lines,
-    paste0(c("", extract_range(whole_lines, context$contents)), collapse = "\n"),
+    paste0(
+      c("", extract_range(whole_lines, context$contents)),
+      collapse = "\n"
+    ),
     context$id
   )
 
@@ -216,12 +229,14 @@ rs_suffix_selection <- function(generator, context, interface) {
 }
 
 # meat and potatoes -
-stream_selection <- function(generator,
-                             selection,
-                             context,
-                             n_lines_orig,
-                             remainder = "",
-                             interface) {
+stream_selection <- function(
+  generator,
+  selection,
+  context,
+  n_lines_orig,
+  remainder = "",
+  interface
+) {
   tryCatch(
     res <- stream_selection_impl(
       generator = generator,
@@ -232,47 +247,57 @@ stream_selection <- function(generator,
       interface = interface
     ),
     error = function(e) {
-      rstudioapi::showDialog("Error", paste("The assistant ran into an issue: ", e$message))
+      rstudioapi::showDialog(
+        "Error",
+        paste("The assistant ran into an issue: ", e$message)
+      )
     }
   )
 
   res
 }
 
-stream_selection_impl <- function(generator,
-                                  selection,
-                                  context,
-                                  n_lines_orig,
-                                  remainder,
-                                  interface) {
+stream_selection_impl <- function(
+  generator,
+  selection,
+  context,
+  n_lines_orig,
+  remainder,
+  interface
+) {
   selection_text <- selection[["text"]]
   output_lines <- character(0)
 
-  coro::loop(for (chunk in generator) {
-    if (identical(chunk, "")) {next}
+  coro::loop(
+    for (chunk in generator) {
+      if (identical(chunk, "")) {
+        next
+      }
 
-    output_lines <- paste(output_lines, chunk, sep = "")
-    output_lines_no_trailing_newline <- gsub("\n+$", "", output_lines)
-    n_lines <- nchar(gsub("[^\n]+", "", output_lines_no_trailing_newline)) + 1
+      output_lines <- paste(output_lines, chunk, sep = "")
+      output_lines_no_trailing_newline <- gsub("\n+$", "", output_lines)
+      n_lines <- nchar(gsub("[^\n]+", "", output_lines_no_trailing_newline)) + 1
 
-    # add trailing newlines so that the output at least extends to the n_lines
-    # of the original selection (for visual effect only)
-    output_padded <- paste0(
-      output_lines_no_trailing_newline,
-      paste0(rep("\n", max(n_lines_orig - n_lines, 0)), collapse = "")
-    )
+      # add trailing newlines so that the output at least extends to the n_lines
+      # of the original selection (for visual effect only)
+      output_padded <- paste0(
+        output_lines_no_trailing_newline,
+        paste0(rep("\n", max(n_lines_orig - n_lines, 0)), collapse = "")
+      )
 
-    rstudioapi::modifyRange(
-      selection$range,
-      output_padded,
-      context$id
-    )
+      rstudioapi::modifyRange(
+        selection$range,
+        output_padded,
+        context$id
+      )
 
-    # there may be more lines in the output than there are in the range
-    n_selection <- selection$range$end[[1]] - selection$range$start[[1]]
-    n_lines_res <- nchar(gsub("[^\n]+", "", output_padded))
-    selection$range$end[["row"]] <- selection$range$start[["row"]] + n_lines_res
-  })
+      # there may be more lines in the output than there are in the range
+      n_selection <- selection$range$end[[1]] - selection$range$start[[1]]
+      n_lines_res <- nchar(gsub("[^\n]+", "", output_padded))
+      selection$range$end[["row"]] <- selection$range$start[["row"]] +
+        n_lines_res
+    }
+  )
 
   # once the generator is finished, modify the range with the
   # unpadded version to remove unneeded newlines

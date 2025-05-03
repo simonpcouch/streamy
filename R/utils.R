@@ -27,10 +27,12 @@ parse_interface <- function(interface, call = caller_env()) {
     interface <- "replace"
   }
 
-  if (isTRUE(
-    length(interface) != 1 ||
-    !interface %in% supported_interfaces
-  )) {
+  if (
+    isTRUE(
+      length(interface) != 1 ||
+        !interface %in% supported_interfaces
+    )
+  ) {
     cli::cli_abort(
       "{.arg interface} should be one of {.or {.val {supported_interfaces}}},
        not {.obj_type_friendly {interface}}.",
