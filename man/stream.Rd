@@ -30,7 +30,7 @@ from large language models.
 }
 \details{
 This function is generally not intended for interactive usage. See the
-gander, pal, and ensure package, which this package powers.
+gander, chores, and ensure package, which this package powers.
 }
 \examples{
 \dontrun{

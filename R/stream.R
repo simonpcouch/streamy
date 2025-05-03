@@ -13,7 +13,7 @@
 #'
 #' @details
 #' This function is generally not intended for interactive usage. See the
-#' gander, pal, and ensure package, which this package powers.
+#' gander, chores, and ensure package, which this package powers.
 #'
 #' @returns
 #' The streamed result, invisibly; called for its side effect, modifying the
@@ -98,7 +98,7 @@ standardize_selection <- function(selection, context) {
 
   # ensure that models can fill in characters beyond the current selection's
   # while also ensuring that characters after the selection in the final
-  # line are preserved (simonpcouch/pal#35)
+  # line are preserved (simonpcouch/chores#35)
   selection_text <- selection[["text"]]
 
   # Positron doesn't support line endings of Inf, so use a very large number
