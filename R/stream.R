@@ -354,6 +354,7 @@ chat_selection_impl <- function(
     clear = FALSE,
     format_done = "{cli::col_green(cli::symbol$tick)} Generating... {cli::col_grey(paste0('[', {cli::pb_elapsed}, ']'))}"
   )
+  cli::cli_progress_update()
 
   output_lines <- character(0)
   coro::loop(
