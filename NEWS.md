@@ -1,5 +1,8 @@
 # streamy (development version)
 
+* `stream()` will now remove triple backticks from the generator's reponse
+  when streaming into a .R file (#7, simonpcouch/gander#5). 
+
 * Addresses an issue where, in Positron, `stream()` might overwrite lines
   following a selection. 
   

@@ -48,3 +48,14 @@ supported_interfaces <- c("replace", "prefix", "suffix")
 is_positron <- function() {
   Sys.getenv("POSITRON") == "1"
 }
+
+in_dot_r_file <- function(context) {
+  identical(tolower(tools::file_ext(context$path)), "r")
+}
+
+unbacktick <- function(x) {
+  x <- gsub("\n```", "", x)
+  x <- gsub("```\n", "", x)
+  x <- gsub("```", "", x)
+  x
+}

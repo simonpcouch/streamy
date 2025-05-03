@@ -309,6 +309,11 @@ stream_selection_impl <- function(
     }
   )
 
+  # remove triple backticks when in .R files (#7)
+  if (in_dot_r_file(context)) {
+    output_lines <- unbacktick(output_lines)
+  }
+
   # once the generator is finished, modify the range with the
   # unpadded version to remove unneeded newlines
   res <-
@@ -361,7 +366,11 @@ chat_selection_impl <- function(
 
   cli::cli_progress_done()
 
-  # TODO: strip trailing newline
+  # remove triple backticks when in .R files (#7)
+  if (in_dot_r_file(context)) {
+    output_lines <- unbacktick(output_lines)
+  }
+
   res <-
     rstudioapi::modifyRange(
       selection$range,
