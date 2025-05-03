@@ -237,6 +237,7 @@ stream_selection <- function(
   remainder = "",
   interface
 ) {
+  res <- character(0)
   tryCatch(
     if (is_positron()) {
       res <- chat_selection_impl(
