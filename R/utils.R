@@ -44,3 +44,7 @@ parse_interface <- function(interface, call = caller_env()) {
 }
 
 supported_interfaces <- c("replace", "prefix", "suffix")
+
+is_positron <- function() {
+  Sys.getenv("POSITRON") == "1"
+}

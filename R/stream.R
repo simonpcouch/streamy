@@ -238,14 +238,24 @@ stream_selection <- function(
   interface
 ) {
   tryCatch(
-    res <- stream_selection_impl(
-      generator = generator,
-      selection = selection,
-      context = context,
-      n_lines_orig = n_lines_orig,
-      remainder = remainder,
-      interface = interface
-    ),
+    if (is_positron()) {
+      res <- chat_selection_impl(
+        generator = generator,
+        selection = selection,
+        context = context,
+        remainder = remainder,
+        interface = interface
+      )
+    } else {
+      res <- stream_selection_impl(
+        generator = generator,
+        selection = selection,
+        context = context,
+        n_lines_orig = n_lines_orig,
+        remainder = remainder,
+        interface = interface
+      )
+    },
     error = function(e) {
       rstudioapi::showDialog(
         "Error",
@@ -311,6 +321,53 @@ stream_selection_impl <- function(
   # reindent the code
   rstudioapi::setSelectionRanges(selection$range, id = context$id)
   rstudioapi::executeCommand("reindent")
+
+  # keep the code selected if it was replaced for easier iteration (#1)
+  if (!identical(interface, "replace")) {
+    rstudioapi::setCursorPosition(selection$range$start)
+  }
+
+  res
+}
+
+# in Positron, calls to `rstudioapi::modifyRange()` shims are entangled,
+# so just chat rather than stream (simonpcouch/chores#68)
+chat_selection_impl <- function(
+  generator,
+  selection,
+  context,
+  remainder = "",
+  interface
+) {
+  rlang::local_options(cli.progress_show_after = 0)
+  selection_text <- selection[["text"]]
+
+  cli::cli_progress_bar(
+    total = NA,
+    format = "{cli::pb_spin} Generating... {cli::col_grey(paste0('[', {cli::pb_elapsed}, ']'))}",
+    clear = FALSE,
+    format_done = "{cli::col_green(cli::symbol$tick)} Generating... {cli::col_grey(paste0('[', {cli::pb_elapsed}, ']'))}"
+  )
+
+  output_lines <- character(0)
+  coro::loop(
+    for (chunk in generator) {
+      output_lines <- c(output_lines, chunk)
+      cli::cli_progress_update()
+
+      Sys.sleep(0.025)
+    }
+  )
+
+  cli::cli_progress_done()
+
+  # TODO: strip trailing newline
+  res <-
+    rstudioapi::modifyRange(
+      selection$range,
+      paste0(c(sub("\\n$", "", output_lines), remainder), collapse = ""),
+      context$id
+    )
 
   # keep the code selected if it was replaced for easier iteration (#1)
   if (!identical(interface, "replace")) {
