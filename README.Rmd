@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# streamy
+# streamy <a href="https://simonpcouch.github.io/streamy/"><img src="man/figures/logo.png" align="right" height="250" alt="streamy website" /></a>
 
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
