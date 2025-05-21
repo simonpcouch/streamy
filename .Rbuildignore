@@ -11,3 +11,4 @@
 ^[\.]?air\.toml$
 ^\.vscode$
 inst/example.R
+inst/hex
