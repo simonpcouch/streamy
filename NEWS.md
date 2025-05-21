@@ -1,5 +1,7 @@
 # streamy (development version)
 
+* The package now has a hex sticker (#6—thanks Hadley)!
+
 * `stream()` will now remove triple backticks from the generator's reponse
   when streaming into a .R file (#7, simonpcouch/gander#5). 
 
