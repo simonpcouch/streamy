@@ -1,4 +1,4 @@
-# streamy (development version)
+# streamy 0.2.0
 
 * The package now has a hex sticker (#6—thanks Hadley)!
 
