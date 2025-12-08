@@ -49,6 +49,10 @@ is_positron <- function() {
   Sys.getenv("POSITRON") == "1"
 }
 
+is_rstudio <- function() {
+  Sys.getenv("RSTUDIO") == "1"
+}
+
 in_dot_r_file <- function(context) {
   identical(tolower(tools::file_ext(context$path)), "r")
 }

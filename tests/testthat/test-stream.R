@@ -82,6 +82,8 @@ test_that("extract_range works", {
 })
 
 test_that("stream_selection errors informatively on streaming error", {
+  skip_if(!is_rstudio())
+  skip_on_cran()
   mock_gen <- structure(list(), class = "coro_generator_instance")
   mock_ctx <- structure(list(), class = "document_context")
   mock_sel <- list(text = "", range = list(start = c(1, 1), end = c(1, 1)))
