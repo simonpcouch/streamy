@@ -376,7 +376,7 @@ chat_selection_impl <- function(
   res <-
     rstudioapi::modifyRange(
       selection$range,
-      paste0(c(sub("\\n$", "", output_lines), remainder), collapse = ""),
+      sub("\n$", "", paste0(c(output_lines, remainder), collapse = "")),
       context$id
     )
 
