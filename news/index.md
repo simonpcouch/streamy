@@ -2,6 +2,9 @@
 
 ## streamy (development version)
 
+- Fixed a bug in Positron where multi-line writes would have some
+  newlines removed (simonpcouch/chores#96).
+
 ## streamy 0.2.0
 
 CRAN release: 2025-05-21
