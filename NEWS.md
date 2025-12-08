@@ -1,5 +1,7 @@
 # streamy (development version)
 
+* Fixed a bug in Positron where multi-line writes would have some newlines removed (simonpcouch/chores#96).
+
 # streamy 0.2.0
 
 * The package now has a hex sticker (#6—thanks Hadley)!
