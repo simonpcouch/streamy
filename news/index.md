@@ -1,6 +1,6 @@
 # Changelog
 
-## streamy (development version)
+## streamy 0.2.1
 
 - Fixed a bug in Positron where multi-line writes would have some
   newlines removed (simonpcouch/chores#96).
