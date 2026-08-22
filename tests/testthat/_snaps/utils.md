@@ -22,6 +22,14 @@
       Error:
       ! `generator` must be the output of `coro::generator(fn)()`, not an empty list.
 
+# stream_chunk_text rejects unsupported values
+
+    Code
+      stream_chunk_text(1)
+    Condition
+      Error:
+      ! `generator` must yield text or ellmer content objects, not a number.
+
 # check_context works
 
     Code

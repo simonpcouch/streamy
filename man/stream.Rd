@@ -11,7 +11,9 @@ stream(
 )
 }
 \arguments{
-\item{generator}{A \code{\link[coro:generator]{coro::generator()}} function.}
+\item{generator}{A \code{\link[coro:generator]{coro::generator()}} function that yields character strings
+or ellmer content objects. Only \code{ContentText} objects from an ellmer content
+stream are written into the document.}
 
 \item{context}{Optional. An RStudio document context.}
 
@@ -23,10 +25,10 @@ The streamed result, invisibly; called for its side effect, modifying the
 context of the current selection with results from the generator.
 }
 \description{
-Given an asychronous generator that produces text, this function iteratively
-polls that generator and inlines its results into the currently open RStudio
-or Positron document. This is particularly useful for streaming results
-from large language models.
+Given an asychronous generator that produces text or ellmer content, this
+function iteratively polls that generator and inlines its text results into
+the currently open RStudio or Positron document. This is particularly useful
+for streaming results from large language models.
 }
 \details{
 This function is generally not intended for interactive usage. See the
@@ -40,7 +42,7 @@ if (rlang::is_installed("ellmer") &&
  ) {
   library(ellmer)
 
-  gen <- chat_claude()$stream("hey there!")
+  gen <- chat_claude()$stream("hey there!", stream = "content")
 
   stream(gen, interface = "suffix")
 }

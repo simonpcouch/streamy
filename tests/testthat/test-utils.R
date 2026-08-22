@@ -7,6 +7,21 @@ test_that("check_generator works", {
   expect_invisible(expect_identical(check_generator(mock_gen), mock_gen))
 })
 
+test_that("stream_chunk_text extracts only text content", {
+  skip_if_not_installed("ellmer", minimum_version = "0.4.1")
+
+  expect_identical(stream_chunk_text("some text"), "some text")
+  expect_identical(
+    stream_chunk_text(ellmer::ContentText("some text")),
+    "some text"
+  )
+  expect_null(stream_chunk_text(ellmer::ContentThinking("some thinking")))
+})
+
+test_that("stream_chunk_text rejects unsupported values", {
+  expect_snapshot(stream_chunk_text(1), error = TRUE)
+})
+
 test_that("check_context works", {
   mock_ctx <- structure(list(), class = "document_context")
 
