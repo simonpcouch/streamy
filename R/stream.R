@@ -1,12 +1,14 @@
 #' Stream generator results into a document
 #'
 #' @description
-#' Given an asychronous generator that produces text, this function iteratively
-#' polls that generator and inlines its results into the currently open RStudio
-#' or Positron document. This is particularly useful for streaming results
-#' from large language models.
+#' Given an asychronous generator that produces text or ellmer content, this
+#' function iteratively polls that generator and inlines its text results into
+#' the currently open RStudio or Positron document. This is particularly useful
+#' for streaming results from large language models.
 #'
-#' @param generator A [coro::generator()] function.
+#' @param generator A [coro::generator()] function that yields character strings
+#' or ellmer content objects. Only `ContentText` objects from an ellmer content
+#' stream are written into the document.
 #' @param context Optional. An RStudio document context.
 #' @param interface One of `"prefix"`, `"replace"`, or `"suffix"`, describing
 #' how to the active selection will be interfaced with. Defaults to `"replace"`.
@@ -27,7 +29,7 @@
 #'  ) {
 #'   library(ellmer)
 #'
-#'   gen <- chat_claude()$stream("hey there!")
+#'   gen <- chat_claude()$stream("hey there!", stream = "content")
 #'
 #'   stream(gen, interface = "suffix")
 #' }
@@ -281,7 +283,8 @@ stream_selection_impl <- function(
 
   coro::loop(
     for (chunk in generator) {
-      if (identical(chunk, "")) {
+      chunk <- stream_chunk_text(chunk)
+      if (is.null(chunk) || identical(chunk, "")) {
         next
       }
 
@@ -359,8 +362,13 @@ chat_selection_impl <- function(
   output_lines <- character(0)
   coro::loop(
     for (chunk in generator) {
-      output_lines <- c(output_lines, chunk)
       cli::cli_progress_update()
+      chunk <- stream_chunk_text(chunk)
+      if (is.null(chunk) || identical(chunk, "")) {
+        next
+      }
+
+      output_lines <- c(output_lines, chunk)
 
       Sys.sleep(0.025)
     }

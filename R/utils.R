@@ -10,6 +10,26 @@ check_generator <- function(generator, call = caller_env()) {
   invisible(generator)
 }
 
+stream_chunk_text <- function(chunk, call = caller_env()) {
+  if (is.character(chunk)) {
+    return(chunk)
+  }
+
+  if (inherits(chunk, "ellmer::ContentText")) {
+    return(ellmer::contents_text(chunk))
+  }
+
+  if (inherits(chunk, "ellmer::Content")) {
+    return(NULL)
+  }
+
+  cli::cli_abort(
+    "{.arg generator} must yield text or ellmer content objects, not
+     {.obj_type_friendly {chunk}}.",
+    call = call
+  )
+}
+
 check_context <- function(context, call = caller_env()) {
   if (!inherits(context, "document_context")) {
     cli::cli_abort(

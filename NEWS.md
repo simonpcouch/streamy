@@ -1,5 +1,9 @@
 # streamy (development version)
 
+* `stream()` accepts ellmer content streams and writes only text content into
+  the document, leaving reasoning and tool content out of the result
+  (simonpcouch/gander#69).
+
 # streamy 0.2.1
 
 * Fixed a bug in Positron where multi-line writes would have some newlines removed (simonpcouch/chores#96).

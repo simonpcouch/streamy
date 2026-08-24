@@ -23,7 +23,7 @@ Imports:
     rstudioapi (>= 0.17.1),
     withr
 Suggests: 
-    ellmer,
+    ellmer (>= 0.4.1),
     knitr,
     rmarkdown,
     testthat (>= 3.0.0)
