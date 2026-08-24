@@ -16,7 +16,7 @@ stream_chunk_text <- function(chunk, call = caller_env()) {
   }
 
   if (inherits(chunk, "ellmer::ContentText")) {
-    return(chunk@text)
+    return(ellmer::contents_text(chunk))
   }
 
   if (inherits(chunk, "ellmer::Content")) {
